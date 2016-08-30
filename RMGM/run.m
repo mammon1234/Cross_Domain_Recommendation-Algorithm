@@ -1,0 +1,20 @@
+function[U1,U2,value1,value2]=run(T1,T2,Tte1,Tte2)
+%[T1]=matri(D1);
+%[T2]=matri(D2);
+Size1=size(T1);
+Size2=size(T2);
+M1=Size1(1);
+N1=Size1(2);
+M2=Size2(1);
+N2=Size2(2);
+Data = [[T1 zeros(M1,N2)]; [zeros(M2,N1) T2]];
+Size = [M1 N1; M2 N2];
+K=20;
+L=20;
+T=50;
+disp(1);
+[Data,Core,U1,U2] = RMGM_EM(Data,Size,K,L,T,M1,N1,M2,N2);
+[value1]=MAE(U1,Tte1);
+disp(value1);
+[value2]=MAE(U2,Tte2);
+disp(value2);
