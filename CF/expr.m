@@ -1,0 +1,5 @@
+function[Ep,ECLFM1,ECLFM2]=expr(D1,D2,Tte1,Tte2)
+[Ep]=PCC(D1,Tte1);
+[Ep]=PCC(D2,Tte2);
+[ECLFM1,ECLFM2]=CLFM(D1,D2,Tte1,Tte2);
+[ECLFM1,ECLFM2]=CLFM(D2,D1,Tte2,Tte1);
