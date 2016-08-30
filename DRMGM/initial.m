@@ -1,0 +1,36 @@
+function [PrrU,PrrI,CndR]=initial(X,K,L)
+R=5;
+CndR=zeros(K,L,R);
+XT=X';
+[Idx,Ft]=kmeans(XT,K);
+Ft=Ft+0.2;
+[Idx,Gt]=kmeans(X,L);
+Gt=Gt+0.2;
+F=Ft';
+G=Gt';
+S=F'*X*G;
+%F=rand(M,K);
+%S=rand(K,L)*K;
+%G=rand(N,L);
+T=50;
+eclip=0.0001;
+for t=1:T
+    tep11=F'*X*G;
+    tep12=F'*F*S*G'*G;
+    S=S.*(tep11./(tep12+eclip));    
+    tep21=X*G*S';
+    tep22=F*F'*X*G*S';
+    F=F.*(tep21./(tep22+eclip));    
+    tep31=X'*F*S;
+    tep32=G*G'*X'*F*S;
+    G=G.*(tep31./(tep32+eclip));
+end
+for r=1:R
+    CndR(:,:,r)=S;
+end
+SU=sum(sum(F,2));
+Ft=F';
+PrrU = sum(Ft,2)/SU+eclip;
+SI=sum(sum(G,2));
+Gt=G';
+PrrI = sum(Gt,2)/SI+eclip;
